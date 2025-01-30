@@ -1,0 +1,11 @@
+input[id="nroFactura"] ~ button{
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    transition: all 500ms ease-in-out;
+}
+
+input[id="nroFactura"]:focus ~ button{
+    opacity: 1;
+    visibility: visible;
+}
