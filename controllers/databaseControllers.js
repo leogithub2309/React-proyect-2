@@ -71,12 +71,70 @@ const getFacturas = async (req, res) => {
     }
 }
 
+const createProveedor = async (req, res) => {
+
+    try {
+
+        let {nombre, nit, cedula, direccion, telefono, facturaid} = req.body;
+
+        if(!nombre || !nit || !cedula || !direccion || !telefono || !facturaid){
+            return res.status(404).send({
+                title: "Error",
+                status: 404,
+                description: "Los campos del formulario no pueden estar vacíos"
+            });
+        }
+
+        let sql = "INSERT INTO proveedor SET ?";
+
+        const [result] = await pool.query(sql, {nombre, nit, cedula, direccion, telefono, facturaid});
+
+        if(result){
+            return res.send(circularJSON({
+                title: "Succes",
+                description: "El nuevo proveedor se agregó correctamente",
+                data: result
+            }, null, 2));
+        }
+        
+    } catch (error) {
+        return res.status(404).send({
+            title: "Error",
+            status: 404,
+            error
+        });
+    }
+}
+
+const getProveedores = async (req, res) => {
+
+    try {
+        
+        let sql = `SELECT p.nombre, p.nit, p.cedula, p.direccion, p.telefono, f.tipo, f.nroFactura, f.fechaCreacion FROM proveedor p INNER JOIN facturas f ON p.facturaid=f.facturaid`;
+
+        const [data] = await pool.query(sql);
+
+        if(data) return res.status(200).send({
+            title: "Succes",
+            data
+        });
+
+    } catch (error) {
+        return res.status(404).send({
+            title: "Error",
+            status: 404,
+            error
+        });
+    }
+}
 
 
 const queryDB = {
     mainRoute,
     agregarFactura,
-    getFacturas
+    getFacturas,
+    createProveedor,
+    getProveedores
 }
 
 export default queryDB;

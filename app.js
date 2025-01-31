@@ -27,6 +27,8 @@ app.use(express.urlencoded({extended: false }));
 app.get("/", queryDB.mainRoute);
 app.post("/crearFactura", queryDB.agregarFactura);
 app.get("/facturas", queryDB.getFacturas);
+app.post("/crearProveedor", queryDB.createProveedor);
+app.get("/proveedores", queryDB.getProveedores);
 
 app.listen(port, () => {
     console.log(`El servidor se está ejecutando en el http://localhost:${port}/`);
