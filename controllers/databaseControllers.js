@@ -75,9 +75,9 @@ const createProveedor = async (req, res) => {
 
     try {
 
-        let {nombre, nit, cedula, direccion, telefono, facturaid} = req.body;
+        let {nombre, nit, cedula, direccion, telefono, facturaid, status} = req.body;
 
-        if(!nombre || !nit || !cedula || !direccion || !telefono || !facturaid){
+        if(!nombre || !nit || !cedula || !direccion || !telefono || !facturaid || !status){
             return res.status(404).send({
                 title: "Error",
                 status: 404,
@@ -87,7 +87,7 @@ const createProveedor = async (req, res) => {
 
         let sql = "INSERT INTO proveedor SET ?";
 
-        const [result] = await pool.query(sql, {nombre, nit, cedula, direccion, telefono, facturaid});
+        const [result] = await pool.query(sql, {nombre, nit, cedula, direccion, telefono, facturaid, status});
 
         if(result){
             return res.send(circularJSON({
