@@ -110,13 +110,41 @@ const getProveedores = async (req, res) => {
 
     try {
         
-        let sql = `SELECT p.nombre, p.nit, p.cedula, p.direccion, p.telefono, f.tipo, f.nroFactura, f.fechaCreacion FROM proveedor p INNER JOIN facturas f ON p.facturaid=f.facturaid`;
+        let sql = `SELECT p.proveedorid, p.nombre, p.nit, p.cedula, p.direccion, p.telefono, p.status ,f.tipo, f.nroFactura, f.fechaCreacion FROM proveedor p INNER JOIN facturas f ON p.facturaid=f.facturaid`;
 
         const [data] = await pool.query(sql);
 
         if(data) return res.status(200).send({
             title: "Succes",
+            status: 200,
             data
+        });
+
+    } catch (error) {
+        return res.status(404).send({
+            title: "Error",
+            status: 404,
+            error
+        });
+    }
+}
+
+
+const updateStatusProveedor = async (req, res) => {
+
+    try {
+        
+        let { status } = req.body;
+
+        let { id } = req.params;
+
+
+        const [result] = await pool.query(`UPDATE proveedor SET proveedor.status = '${status}' WHERE proveedor.proveedorid = ${id}`);
+
+        if(result) return res.status(200).send({
+            title: "Success",
+            description: "El proveedor ahora tiene un status 0",
+            result
         });
 
     } catch (error) {
@@ -134,7 +162,8 @@ const queryDB = {
     agregarFactura,
     getFacturas,
     createProveedor,
-    getProveedores
+    getProveedores,
+    updateStatusProveedor
 }
 
 export default queryDB;

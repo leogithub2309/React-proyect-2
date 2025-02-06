@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { helpHttp } from '../helpers/httpHelp';
 import { useForm } from '../hooks/useForm';
 
+import { useNavigate } from 'react-router-dom';
+
 /*
 regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
 regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
@@ -71,6 +73,8 @@ function FormProveedor() {
 
     const [facturas, setFacturas] = useState([]);
 
+    const navigate = useNavigate();
+
     const {form, errors, handleChange, handleBlur} = useForm(initialForm, validationsForm);
 
     useEffect(() => {
@@ -93,10 +97,10 @@ function FormProveedor() {
             method: "POST",
             body: form
         }).then((response) => {
-            console.log(response);
+            //console.log(response);
             alert(`${response.description}`);
             setTimeout(() => {
-                window.location.reload();
+                navigate("/listaProveedores");
             }, 2000);
 
         }).catch((err) => console.error(err));

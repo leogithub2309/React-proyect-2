@@ -29,6 +29,7 @@ app.post("/crearFactura", queryDB.agregarFactura);
 app.get("/facturas", queryDB.getFacturas);
 app.post("/crearProveedor", queryDB.createProveedor);
 app.get("/proveedores", queryDB.getProveedores);
+app.put("/updateStatus/:id", queryDB.updateStatusProveedor);
 
 app.listen(port, () => {
     console.log(`El servidor se está ejecutando en el http://localhost:${port}/`);
